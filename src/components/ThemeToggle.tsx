@@ -15,7 +15,7 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
         border: "none",
         cursor: "pointer",
         padding: 4,
-        color: "var(--text-muted)",
+        color: "var(--fg)",
         transition: "color 200ms ease",
         display: "flex",
         alignItems: "center",

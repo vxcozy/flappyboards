@@ -187,6 +187,18 @@ export default function Home() {
               fontFamily: "var(--font-geist-mono)",
               background: "var(--glass-bg)",
               backdropFilter: "blur(8px)",
+              transform: "translateY(0)",
+              boxShadow: "none",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.boxShadow = "0 4px 12px var(--board-border)";
+              e.currentTarget.style.borderColor = "var(--border-hover)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "none";
+              e.currentTarget.style.borderColor = "";
             }}
           >
             LAUNCH DISPLAY
@@ -203,11 +215,20 @@ export default function Home() {
               color: "var(--text-muted)",
               textDecoration: "none",
               padding: "8px 20px",
-              transition: "color 200ms ease",
+              transition: "all 200ms ease",
               fontFamily: "var(--font-geist-mono)",
+              transform: "scale(1)",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = "var(--fg)";
+              e.currentTarget.style.transform = "scale(1.05)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = "var(--text-muted)";
+              e.currentTarget.style.transform = "scale(1)";
             }}
           >
-            GITHUB
+            <span style={{ fontSize: 10, display: "inline-flex", alignItems: "center", gap: 5 }}><span style={{ fontSize: 11, marginTop: -1 }}>&#9733;</span>GITHUB</span>
           </a>
         </div>
       </div>
