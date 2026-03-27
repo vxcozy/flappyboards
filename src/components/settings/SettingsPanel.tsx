@@ -17,10 +17,15 @@ interface SettingsPanelProps {
 
 export default function SettingsPanel({ onSendMessage }: SettingsPanelProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [customText, setCustomText] = useState("");
   const settings = useSettingsStore();
   const { theme } = useTheme();
   const [origin, setOrigin] = useState("");
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     setOrigin(window.location.origin);
@@ -68,15 +73,32 @@ export default function SettingsPanel({ onSendMessage }: SettingsPanelProps) {
     setCustomText("");
   };
 
-  if (!isOpen) {
-    return (
+  return (<>
+    {/* Top-right buttons: theme toggle + settings gear */}
+    <div
+      style={{
+        position: "fixed",
+        top: 20,
+        right: 20,
+        zIndex: 50,
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        opacity: isOpen ? 0 : 1,
+        pointerEvents: isOpen ? "none" : "auto",
+        transition: "opacity 200ms ease",
+      }}
+    >
+      <div
+        style={{ opacity: 0.5, transition: "opacity 200ms ease" }}
+        onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+        onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
+      >
+        <ThemeToggle />
+      </div>
       <button
         onClick={() => setIsOpen(true)}
         style={{
-          position: "fixed",
-          top: 20,
-          left: 20,
-          zIndex: 50,
           width: 32,
           height: 32,
           borderRadius: "50%",
@@ -111,10 +133,10 @@ export default function SettingsPanel({ onSendMessage }: SettingsPanelProps) {
           <circle cx="12" cy="12" r="3" />
         </svg>
       </button>
-    );
-  }
+    </div>
 
-  return createPortal(
+    {/* Slide-out panel */}
+    {mounted && createPortal(
     <div
       style={{
         position: "fixed",
@@ -125,13 +147,14 @@ export default function SettingsPanel({ onSendMessage }: SettingsPanelProps) {
         width: 300,
         height: "100vh",
         background: "var(--glass-bg-solid)",
-        backdropFilter: "blur(24px) saturate(1.2)",
-        WebkitBackdropFilter: "blur(24px) saturate(1.2)",
+        backdropFilter: "blur(32px) saturate(1.3)",
+        WebkitBackdropFilter: "blur(32px) saturate(1.3)",
         borderLeft: "1px solid var(--border)",
         padding: "28px 24px",
         overflowX: "hidden",
         overflowY: "auto",
-        transition: "transform 200ms ease",
+        transform: isOpen ? "translateX(0)" : "translateX(100%)",
+        transition: "transform 300ms cubic-bezier(0.4, 0, 0.2, 1)",
       }}
     >
       {/* Header */}
@@ -389,7 +412,8 @@ export default function SettingsPanel({ onSendMessage }: SettingsPanelProps) {
       </p>
     </div>,
     document.body
-  );
+  )}
+  </>);
 }
 
 function Section({

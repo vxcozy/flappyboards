@@ -1,51 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 import { useMusicStore } from "@/stores/music-store";
-import {
-  initiateSpotifyAuth,
-  exchangeCodeForToken,
-  storeTokens,
-  clearTokens,
-  isAuthenticated,
-} from "@/lib/music/spotify-auth";
-import { useSpotifyPlayer } from "@/hooks/useSpotifyPlayer";
 import StationPicker from "./StationPicker";
 
 export default function MusicSettings() {
   const { source, setSource, musicVolume, setMusicVolume } = useMusicStore();
-  const searchParams = useSearchParams();
-  const { isReady, disconnect: disconnectPlayer } = useSpotifyPlayer();
-
-  // Handle Spotify OAuth callback code
-  useEffect(() => {
-    const code = searchParams.get("spotify_code");
-    if (!code) return;
-
-    const redirectUri = `${window.location.origin}/api/spotify/callback`;
-    exchangeCodeForToken(code, redirectUri)
-      .then((data) => {
-        storeTokens(data.access_token, data.refresh_token, data.expires_in);
-        // Clean URL
-        window.history.replaceState({}, "", "/display");
-      })
-      .catch(() => {
-        // Auth failed
-      });
-  }, [searchParams]);
-
-  const handleSpotifyLogin = () => {
-    const redirectUri = `${window.location.origin}/api/spotify/callback`;
-    initiateSpotifyAuth(redirectUri);
-  };
-
-  const handleSpotifyLogout = () => {
-    disconnectPlayer();
-    clearTokens();
-  };
-
-  const authenticated = isAuthenticated();
 
   return (
     <div>
@@ -79,102 +38,41 @@ export default function MusicSettings() {
       {/* Radio station picker */}
       {source === "radio" && <StationPicker />}
 
-      {/* Spotify */}
+      {/* Spotify placeholder */}
       {source === "spotify" && (
-        <div>
-          {!authenticated ? (
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <button
-                onClick={handleSpotifyLogin}
-                style={{
-                  width: "100%",
-                  padding: "10px 0",
-                  fontSize: 8,
-                  fontWeight: 500,
-                  letterSpacing: "0.15em",
-                  textTransform: "uppercase",
-                  fontFamily: "var(--font-geist-mono)",
-                  background: "#1DB954",
-                  color: "#000",
-                  border: "none",
-                  borderRadius: 2,
-                  cursor: "pointer",
-                  transition: "opacity 200ms ease",
-                }}
-              >
-                LOGIN WITH SPOTIFY
-              </button>
-              <p
-                style={{
-                  fontSize: 7,
-                  color: "var(--text-subtle)",
-                  margin: 0,
-                  fontFamily: "var(--font-geist-mono)",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  textAlign: "center",
-                  opacity: 0.6,
-                }}
-              >
-                REQUIRES SPOTIFY PREMIUM
-              </p>
-            </div>
-          ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: 8,
-                    fontWeight: 500,
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    fontFamily: "var(--font-geist-mono)",
-                    color: "#1DB954",
-                  }}
-                >
-                  {isReady ? "CONNECTED" : "CONNECTING..."}
-                </span>
-                <button
-                  onClick={handleSpotifyLogout}
-                  style={{
-                    fontSize: 7,
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    fontFamily: "var(--font-geist-mono)",
-                    padding: "3px 8px",
-                    background: "none",
-                    color: "var(--text-subtle)",
-                    border: "1px solid var(--border)",
-                    borderRadius: 2,
-                    cursor: "pointer",
-                  }}
-                >
-                  LOG OUT
-                </button>
-              </div>
-              <p
-                style={{
-                  fontSize: 7,
-                  color: "var(--text-subtle)",
-                  margin: 0,
-                  fontFamily: "var(--font-geist-mono)",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  opacity: 0.6,
-                }}
-              >
-                {isReady
-                  ? "PLAY MUSIC IN SPOTIFY TO START"
-                  : "INITIALIZING PLAYBACK SDK..."}
-              </p>
-            </div>
-          )}
+        <div
+          style={{
+            padding: 16,
+            textAlign: "center",
+            border: "1px solid var(--border)",
+            borderRadius: 2,
+          }}
+        >
+          <p
+            style={{
+              fontSize: 8,
+              color: "var(--text-subtle)",
+              margin: 0,
+              fontFamily: "var(--font-geist-mono)",
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+            }}
+          >
+            SPOTIFY INTEGRATION
+          </p>
+          <p
+            style={{
+              fontSize: 7,
+              color: "var(--text-subtle)",
+              margin: "6px 0 0",
+              fontFamily: "var(--font-geist-mono)",
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              opacity: 0.6,
+            }}
+          >
+            COMING SOON — REQUIRES PREMIUM
+          </p>
         </div>
       )}
 

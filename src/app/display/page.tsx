@@ -89,14 +89,6 @@ export default function DisplayPage() {
   return (
     <>
       <DisplayOverlay />
-      {/* Theme toggle — top right */}
-      <div
-        style={{ position: "fixed", top: 20, right: 20, zIndex: 30, opacity: 0.6, transition: "opacity 200ms ease" }}
-        onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-        onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.6")}
-      >
-        <ThemeToggle />
-      </div>
       <div
         style={{
           transform: `scale(${scale})`,

@@ -15,7 +15,7 @@
   --border: rgba(255, 255, 255, 0.06);
   --border-hover: rgba(255, 255, 255, 0.12);
   --glass-bg: rgba(0, 0, 0, 0.2);
-  --glass-bg-solid: rgba(10, 10, 10, 0.55);
+  --glass-bg-solid: rgba(10, 10, 10, 0.35);
   --tag-bg: rgba(255, 255, 255, 0.06);
   --tag-border: rgba(255, 255, 255, 0.1);
   --divider: rgba(255, 255, 255, 0.08);
@@ -56,7 +56,7 @@
   --border: rgba(0, 0, 0, 0.06);
   --border-hover: rgba(0, 0, 0, 0.12);
   --glass-bg: rgba(255, 255, 255, 0.15);
-  --glass-bg-solid: rgba(245, 245, 245, 0.45);
+  --glass-bg-solid: rgba(245, 245, 245, 0.35);
   --tag-bg: rgba(0, 0, 0, 0.05);
   --tag-border: rgba(0, 0, 0, 0.1);
   --divider: rgba(0, 0, 0, 0.08);

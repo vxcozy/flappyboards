@@ -58,8 +58,8 @@ export default function MusicPlayer() {
     <div
       style={{
         position: "fixed",
-        bottom: 38,
-        right: 26,
+        top: 24,
+        left: 24,
         zIndex: 20,
         display: "flex",
         alignItems: "center",
