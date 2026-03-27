@@ -19,7 +19,7 @@ interface SettingsStore {
 export const useSettingsStore = create<SettingsStore>()(
   persist(
     (set) => ({
-      flipSpeed: 160,
+      flipSpeed: 200,
       staggerDelay: 20,
       rotationInterval: 15,
       volume: 0.7,
